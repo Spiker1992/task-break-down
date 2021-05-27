@@ -11,6 +11,7 @@ use Illuminate\Support\Arr;
 
 class IssueSeeder extends Seeder
 {
+    public static array $issues = [];
     protected array $seedPlan = [
         'basic' => [
             'issue' => [
@@ -60,11 +61,13 @@ class IssueSeeder extends Seeder
 
     public function run()
     {
-        foreach ($this->seedPlan as $plan) {
+        foreach ($this->seedPlan as $planName => $plan) {
             $issue = $this->createIssue($plan);
 
             $this->assignLabel($issue, $plan);
             $this->assignAssignees($issue, $plan);
+
+            static::$issues[$planName] = $issue;
         }
     }
 
